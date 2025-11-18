@@ -1,4 +1,4 @@
-/*
+﻿/*
 * Copyright (c) 2021, NVIDIA CORPORATION. All rights reserved.
 *
 * Permission is hereby granted, free of charge, to any person obtaining a
@@ -172,15 +172,19 @@ namespace nvrhi
 
         TextureState* tracking = getTextureStateTracking(texture, true);
 
-        if (tracking->subresourceStates.empty() && tracking->state == ResourceStates::Unknown)
-        {
-            std::stringstream ss;
-            ss << "Unknown prior state of texture " << utils::DebugNameToString(texture->descRef.debugName) << ". "
-                "Call CommandList::beginTrackingTextureState(...) before using the texture or use the "
-                "keepInitialState and initialState members of TextureDesc.";
-            m_MessageCallback->message(MessageSeverity::Error, ss.str().c_str());
-        }
-        
+        ////////////////////////////////////////////////////////////////////////////////////////////
+        // 
+		// cannot transit undefined texture state, vulkan need to transit unknown state explicitly
+        ////////////////////////////////////////////////////////////////////////////////////////////
+        //if (tracking->subresourceStates.empty() && tracking->state == ResourceStates::Unknown)
+        //{
+        //    std::stringstream ss;
+        //    ss << "Unknown prior state of texture " << utils::DebugNameToString(texture->descRef.debugName) << ". "
+        //        "Call CommandList::beginTrackingTextureState(...) before using the texture or use the "
+        //        "keepInitialState and initialState members of TextureDesc.";
+        //    m_MessageCallback->message(MessageSeverity::Error, ss.str().c_str());
+        //}
+        //
         if (subresources.isEntireTexture(texture->descRef) && tracking->subresourceStates.empty())
         {
             // We're requiring state for the entire texture, and it's been tracked as entire texture too
