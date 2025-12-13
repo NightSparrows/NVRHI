@@ -1,4 +1,4 @@
-/*
+﻿/*
 * Copyright (c) 2014-2021, NVIDIA CORPORATION. All rights reserved.
 *
 * Permission is hereby granted, free of charge, to any person obtaining a
@@ -84,6 +84,8 @@ namespace nvrhi::vulkan
     NVRHI_API DeviceHandle createDevice(const DeviceDesc& desc);
    
     NVRHI_API VkFormat convertFormat(nvrhi::Format format);
+    
+    NVRHI_API nvrhi::Format convertVKFormat(VkFormat vkFormat);
 
     NVRHI_API const char* resultToString(VkResult result);
 }

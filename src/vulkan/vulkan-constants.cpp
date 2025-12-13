@@ -117,7 +117,18 @@ namespace nvrhi::vulkan
 
         return c_FormatMap[uint32_t(format)].vkFormat;
     }
-    
+
+    nvrhi::Format convertVKFormat(VkFormat vkFormat)
+    {
+            for (size_t i = 0; i < c_FormatMap.size(); i++)
+            {
+                    if (c_FormatMap[i].vkFormat == vkFormat)
+                            return c_FormatMap[i].rhiFormat;
+            }
+
+            return nvrhi::Format::UNKNOWN; // 找不到的話
+    }
+
     vk::SamplerAddressMode convertSamplerAddressMode(SamplerAddressMode mode)
     {
         switch(mode)
